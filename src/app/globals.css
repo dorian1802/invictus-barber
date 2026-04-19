@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-charcoal: #2d2d2d;
+  --color-charcoal-light: #3d3d3d;
+  --color-sage: #8B9D83;
+  --color-sage-dark: #7a8c73;
+  --color-sage-pale: #e8ede6;
+  --color-gold: #c9a96e;
+  --color-cream: #f5f0eb;
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-cormorant);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  overflow-x: hidden;
+}
+
+/* Animation system: content visible by default, animated in via JS */
+[data-animate] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+[data-animate].is-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+[data-animate="slide-left"].is-hidden {
+  transform: translateX(-30px);
+}
+
+[data-animate="slide-right"].is-hidden {
+  transform: translateX(30px);
+}
+
+[data-animate].animate-delay-1 { transition-delay: 0.1s; }
+[data-animate].animate-delay-2 { transition-delay: 0.2s; }
+[data-animate].animate-delay-3 { transition-delay: 0.3s; }
+[data-animate].animate-delay-4 { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation: none !important;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
 }
